@@ -8,13 +8,19 @@
 
 var EventEmitter = require('events').EventEmitter,
 querystring = require('querystring'),
-//serializer = require('serializer'),
-hashlib = require('hashlib2'),
 extend = require('extend'),
 url = require('url'),
 Q = require('q'),
 jwt = require('jwt-simple'),
 util = require("util");
+
+var crypto = require('crypto');
+
+var hashlib = function (value) {
+    var md5 = crypto.createHash('md5');
+    md5.update(value, 'utf8');
+    return md5.digest('hex');
+};
 
 var modelObj = {
 		global: {

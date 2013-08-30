@@ -44,13 +44,13 @@ app.get('/', function(req, res) {
 });
 
 //Login form (I use email as user name)
-app.get('/my/login', function(req, res, next() {
+app.get('/my/login', function(req, res, next) {
   var head = '<head><title>Login</title></head>';
   var inputs = '<input type="text" name="user" placeholder="Enter Email"/><input type="password" name="password" placeholder="Enter Password"/>';
-  var error = req.session.error?'<div>'+req.session.error+'</div>':'';
+  var error = req.session?req.session.error?'<div>'+req.session.error+'</div>':'':'';
   var body = '<body><h1>Login</h1><form method="POST">'+inputs+'<input type="submit"/></form>'+error;
   res.send('<html>'+head+body+'</html>');
-}));
+});
 
 //process login
 app.post('/my/login', function(req, res, next) {
@@ -104,11 +104,11 @@ app.get('/user/create', function(req, res, next) {
   var fields = mkFields(oidc.getUserParams());
   for(var i in fields) {
     inputs += '<div><label for="'+i+'">'+fields[i].label+'</label>'+fields[i].html+'</div>';
-  });
+  };
   var error = req.session.error?'<div>'+req.session.error+'</div>':'';
   var body = '<body><h1>Sign in</h1><form method="POST">'+inputs+'<input type="submit"/></form>'+error;
   res.send('<html>'+head+body+'</html>');
-}, routes.create_user);
+})//, routes.create_user);
 
 //process user creation
 app.post('/user/create', function(req, res, next) {
@@ -166,7 +166,7 @@ app.get('/client/register', oidc.check(), function(req, res, next) {
 	var fields = mkFields(params);
 	for(var i in fields) {
 	  inputs += '<div><label for="'+i+'">'+fields[i].label+'</label>'+fields[i].html+'</div>';
-	});
+	};
 	var error = req.session.error?'<div>'+req.session.error+'</div>':'';
 	var body = '<body><h1>Register Client</h1><form method="POST">'+inputs+'<input type="submit"/></form>'+error;
 	res.send('<html>'+head+body+'</html>');
@@ -178,7 +178,7 @@ app.get('/client/register', oidc.check(), function(req, res, next) {
     });
   };
   mkId(req.session.user+Math.random());
-}, routes.create_client);
+})//, routes.create_client);
 
 //process client register
 app.post('/client/register', oidc.check(), function(req, res, next) {
